@@ -17,6 +17,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <fwk_log.h>
 
 #ifdef __NEWLIB__
 /* Platform-dependent backend for the _Exit() function */
@@ -54,7 +55,9 @@ static void arch_init_ccr(void)
 
 int main(void)
 {
+    FWK_LOG_CRIT("[FWK] main 0");
     arch_init_ccr();
+    FWK_LOG_CRIT("[FWK] main 1");
 
     return fwk_arch_init(&arch_init_driver);
 }

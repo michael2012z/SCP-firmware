@@ -72,6 +72,8 @@ static int load_image(void)
 
     bool sds = false;
 
+    FWK_LOG_INFO("[BOOTLOADER] Michael: load_image 0");
+
     if (module_ctx.module_config == NULL) {
         return FWK_E_PARAM;
     }
@@ -95,7 +97,9 @@ static int load_image(void)
          * Wait until Trusted Firmware writes the image metadata and sets the
          * data valid flag.
          */
+    FWK_LOG_INFO("[BOOTLOADER] Michael: load_image 1");
         while (true) {
+          FWK_LOG_INFO("[BOOTLOADER] Michael: load_image 2");
             status = module_ctx.sds_api->struct_read(
                 module_ctx.module_config->sds_struct_id,
                 BOOTLOADER_STRUCT_VALID_POS,
@@ -110,6 +114,8 @@ static int load_image(void)
                 break;
             }
         }
+        FWK_LOG_INFO("[BOOTLOADER] Michael: load_image 3");
+
         /*
          * Clear the image flag, so that at reboot if the RAM contents are
          * retained, then it would need to be set again by AP.
@@ -123,6 +129,8 @@ static int load_image(void)
         if (status != FWK_SUCCESS) {
             return status;
         }
+        FWK_LOG_INFO("[BOOTLOADER] Michael: load_image 4");
+
         /*
          * The image metadata from Trusted Firmware can now be read and
          * validated.
@@ -165,11 +173,14 @@ static int load_image(void)
         image_size = module_ctx.module_config->source_size;
     }
 
+    FWK_LOG_INFO("[BOOTLOADER] Michael: load_image 5");
+
     if (module_ctx.module_config->destination_size > 0) {
         if (image_size > module_ctx.module_config->destination_size) {
             return FWK_E_SIZE;
         }
     }
+    FWK_LOG_INFO("[BOOTLOADER] Michael: load_image 6");
 
     fwk_interrupt_global_disable(); /* We are relocating the vector table */
 

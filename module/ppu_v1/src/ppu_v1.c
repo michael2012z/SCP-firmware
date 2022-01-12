@@ -9,6 +9,7 @@
 
 #include <fwk_assert.h>
 #include <fwk_status.h>
+#include <fwk_log.h>
 
 #include <stddef.h>
 
@@ -66,6 +67,8 @@ int ppu_v1_set_power_mode(
 {
     int status;
     struct set_power_status_check_params_v1 params;
+
+    FWK_LOG_CRIT("[PPU-V1] michael: ppu_v1_set_power_mode");
     status = ppu_v1_request_power_mode(ppu, ppu_mode);
     if (status != FWK_SUCCESS)
         return status;
@@ -95,6 +98,7 @@ int ppu_v1_request_operating_mode(struct ppu_v1_reg *ppu,
     fwk_assert(ppu != NULL);
     fwk_assert(op_mode < PPU_V1_OPMODE_COUNT);
 
+    FWK_LOG_CRIT("[PPU-V1] michael: ppu_v1_request_operating_mode");
     power_policy = ppu->PWPR & ~(PPU_V1_PWPR_OP_POLICY | PPU_V1_PWPR_OP_DYN_EN);
     ppu->PWPR = power_policy | (op_mode << PPU_V1_PWPR_OP_POLICY_POS);
 
@@ -105,6 +109,8 @@ void ppu_v1_opmode_dynamic_enable(struct ppu_v1_reg *ppu,
                                   enum ppu_v1_opmode min_dyn_mode)
 {
     uint32_t power_policy;
+
+    FWK_LOG_CRIT("[PPU-V1] michael: ppu_v1_opmode_dynamic_enable");
 
     fwk_assert(ppu != NULL);
     fwk_assert(min_dyn_mode < PPU_V1_OPMODE_COUNT);
@@ -122,6 +128,7 @@ void ppu_v1_dynamic_enable(struct ppu_v1_reg *ppu,
 {
     uint32_t power_policy;
 
+    FWK_LOG_CRIT("[PPU-V1] michael: ppu_v1_dynamic_enable");
     fwk_assert(ppu != NULL);
     fwk_assert(min_dyn_state < PPU_V1_MODE_COUNT);
 

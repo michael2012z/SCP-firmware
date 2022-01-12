@@ -50,6 +50,7 @@ int fwk_arch_init(const struct fwk_arch_init_driver *driver)
 {
     int status;
 
+    FWK_LOG_CRIT("[FWK] fwk_arch_init() 0");
     if (driver == NULL) {
         return FWK_E_PARAM;
     }
@@ -58,23 +59,32 @@ int fwk_arch_init(const struct fwk_arch_init_driver *driver)
         return FWK_E_PARAM;
     }
 
+    FWK_LOG_CRIT("[FWK] fwk_arch_init() 1");
     fwk_module_init();
 
+    FWK_LOG_CRIT("[FWK] fwk_arch_init() 2");
+    
     status = fwk_io_init();
     if (!fwk_expect(status == FWK_SUCCESS)) {
         return FWK_E_PANIC;
     }
+
+    FWK_LOG_CRIT("[FWK] fwk_arch_init() 3");
 
     status = fwk_log_init();
     if (!fwk_expect(status == FWK_SUCCESS)) {
         return FWK_E_PANIC;
     }
 
+    FWK_LOG_CRIT("[FWK] fwk_arch_init() 4");
+
     /* Initialize interrupt management */
     status = fwk_arch_interrupt_init(driver->interrupt);
     if (!fwk_expect(status == FWK_SUCCESS)) {
         return FWK_E_PANIC;
     }
+
+    FWK_LOG_CRIT("[FWK] fwk_arch_init() 5");
 
     status = fwk_module_start();
     if (!fwk_expect(status == FWK_SUCCESS)) {

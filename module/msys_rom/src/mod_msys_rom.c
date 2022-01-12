@@ -43,17 +43,23 @@ static int msys_deferred_setup(void)
 {
     int status;
 
+    FWK_LOG_CRIT("[MSYS-ROM] michael: msys_deferred_setup 0");
+    
     /* Initialize the AP context area by zeroing it */
     memset((void *)ctx.rom_config->ap_context_base,
            0,
            ctx.rom_config->ap_context_size);
 
+    FWK_LOG_CRIT("[MSYS-ROM] michael: msys_deferred_setup 1");
     /* Power on the primary cluster and cpu */
     ctx.ppu_boot_api->power_mode_on(ctx.rom_config->id_primary_cluster);
     ctx.ppu_boot_api->power_mode_on(ctx.rom_config->id_primary_core);
 
+    FWK_LOG_CRIT("[MSYS-ROM] michael: msys_deferred_setup 2");
+    /* Michael: load_image() never come back, following printings should never be seen.*/
     status = ctx.bootloader_api->load_image();
 
+    FWK_LOG_CRIT("[MSYS-ROM] michael: msys_deferred_setup 3");
     FWK_LOG_CRIT(
         "[MSYS-ROM] Failed to load RAM firmware image: %s",
         fwk_status_str(status));
