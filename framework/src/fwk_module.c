@@ -414,6 +414,8 @@ int fwk_module_start(void)
     int status;
     unsigned int bind_round;
 
+    FWK_LOG_CRIT("[FWK] Module initialization ---------------");
+
     if (fwk_module_ctx.initialized) {
         FWK_LOG_CRIT(fwk_module_err_msg_func, FWK_E_STATE, __func__);
         return FWK_E_STATE;
